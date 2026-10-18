@@ -19,6 +19,14 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# 统一用 UTF-8 输出。Windows 控制台/管道的默认编码是本地代码页（如 cp936），
+# 宿主（Node execFile）按 UTF-8 解码 stdout 时中文会变成乱码。
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except (AttributeError, ValueError):
+    pass
+
 from word_guard.scanner import scan_docx, print_scan_summary
 from word_guard.scope import resolve_scope, find_paragraph_containing
 from word_guard.editor import (

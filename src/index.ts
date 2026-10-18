@@ -259,15 +259,31 @@ async function readTextFile(filePath: string): Promise<string> {
     // v1.8：通过 Python word_guard 提取 DOCX 文本（无需 anydoc 中转）
     try {
       const { execFile } = await import('node:child_process')
-      const pythonCmd = process.env.DSH_PYTHON ?? 'python3'
+      // Windows 上常只有 python（python3 可能是 Microsoft Store 别名），
+      // 与 callWordGuard 保持一致的候选顺序。
+      const candidates = process.env.DSH_PYTHON
+        ? [process.env.DSH_PYTHON]
+        : process.platform === 'win32'
+          ? ['python', 'python3']
+          : ['python3', 'python']
       const wordGuardCli = path.join(PLUGIN_DIR, 'word_guard', 'cli.py')
       const args = [wordGuardCli, 'audit', filePath]
-      return await new Promise<string>((resolve, reject) => {
-        execFile(pythonCmd, args, { maxBuffer: 10 * 1024 * 1024, timeout: 30_000 }, (err, stdout) => {
-          if (err) reject(new Error(`DOCX text extraction failed: ${err.message}`))
-          else resolve(stdout)
-        })
-      })
+      // Windows 下 Python 默认按本地编码（如 cp936）写 stdout，
+      // 宿主按 UTF-8 解码会得到乱码；强制 Python 输出 UTF-8。
+      const env = { ...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1' }
+      for (const pythonCmd of candidates) {
+        try {
+          return await new Promise<string>((resolve, reject) => {
+            execFile(pythonCmd, args, { maxBuffer: 10 * 1024 * 1024, timeout: 30_000, env }, (err, stdout) => {
+              if (err) reject(new Error(`DOCX text extraction failed: ${err.message}`))
+              else resolve(stdout)
+            })
+          })
+        } catch (e) {
+          if (pythonCmd === candidates[candidates.length - 1]) throw e
+        }
+      }
+      throw new Error('No Python interpreter found')
     } catch (e) {
       throw new Error(`"${filePath}" 是 DOCX 文档，文本提取失败: ${e instanceof Error ? e.message : String(e)}。请先调用 anydoc 工具转换为 Markdown。`)
     }
@@ -665,11 +681,14 @@ export function apply(ctx: Context, config: Partial<Config> = {}): void {
         ? ['python', 'python3']
         : ['python3', 'python']
     const args = [WORD_GUARD_PATH, command, ...extraArgs]
+    // Windows 下 Python 默认按本地编码（如 cp936）写 stdout，
+    // 宿主按 UTF-8 解码会得到乱码；强制 Python 输出 UTF-8。
+    const env = { ...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1' }
     // Try each candidate until one works
     for (const pythonCmd of candidates) {
       try {
         const result = await new Promise<string>((resolve, reject) => {
-          execFile(pythonCmd, args, { maxBuffer: 10 * 1024 * 1024, timeout: 60_000 }, (err, stdout, stderr) => {
+          execFile(pythonCmd, args, { maxBuffer: 10 * 1024 * 1024, timeout: 60_000, env }, (err, stdout, stderr) => {
             if (err) reject(new Error(`word_guard ${command} failed: ${err.message}\n${stderr}`))
             else resolve(stdout)
           })

@@ -64,6 +64,20 @@ try {
     console.warn(`[dsh-plugin-writing-guard] Could not install Python module: ${e.message}`)
   }
 
+  // 2b. Copy Python module into the plugin's own lib/word_guard/.
+  //     The runtime resolves word_guard relative to the compiled entry point
+  //     (lib/index.js), so a fresh install without this step loses Word tools.
+  try {
+    const pySrc2 = join(PLUGIN_ROOT, 'src', 'word_guard')
+    const pyLibDest = join(PLUGIN_ROOT, 'lib', 'word_guard')
+    if (existsSync(pySrc2)) {
+      copyDir(pySrc2, pyLibDest)
+      console.log(`[dsh-plugin-writing-guard] Python module installed to ${pyLibDest}`)
+    }
+  } catch (e) {
+    console.warn(`[dsh-plugin-writing-guard] Could not install Python module to lib: ${e.message}`)
+  }
+
   // 3. Check python-docx availability (informational only)
   try {
     const { execSync } = await import('node:child_process')
