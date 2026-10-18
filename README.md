@@ -4,293 +4,293 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-writing-guard)](https://www.npmjs.com/package/dsh-plugin-writing-guard)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Scientific Writing & Document Integrity Guard for AI-assisted research
+## 面向 AI 辅助科研的科学写作与文档完整性守卫
 
-**Less explanation. More argument. Preserve the science.**
+**少一些解释，多一些论证。守住科学。**
 
-Writing Guard combines prompt-guided scientific prose discipline with deterministic integrity checks for AI-assisted research.
-It protects your manuscript across five layers:
+Writing Guard 把提示词引导的科学写作纪律与确定性完整性检查结合起来，服务于 AI 辅助科研。
+它在五个层面保护你的稿件：
 
-| Guard | Protects against | Risk |
+| 守卫 | 防范的问题 | 风险 |
 |-------|------------------|------|
-| **STYLE** | Argument economy | 防御性写作、过度解释、语义重复、模板腔 |
-| **EVIDENCE** | Scientific drift | 数值、单位、引用、结论被改 |
-| **JOURNAL** | Journal mismatch | scope/style/convention 不匹配 |
-| **DELIVERY** | Context leakage | prompt、notes、workflow metadata 泄漏 |
-| **DOCUMENT** 🆕 | Document corruption | Word 格式、公式、表格、OOXML 被破坏 |
+| **STYLE** | 论证经济性 | 防御性写作、过度解释、语义重复、模板腔 |
+| **EVIDENCE** | 科学漂移 | 数值、单位、引用、结论被改 |
+| **JOURNAL** | 期刊错配 | scope/style/convention 不匹配 |
+| **DELIVERY** | 上下文泄漏 | prompt、notes、workflow metadata 泄漏 |
+| **DOCUMENT** 🆕 | 文档损坏 | Word 格式、公式、表格、OOXML 被破坏 |
 
-**Prompt-guided writing · Deterministic integrity core · 394 Tests**
+**提示词引导写作 · 确定性完整性内核 · 394 项测试**
 
 ```
 npm install dsh-plugin-writing-guard
 ```
 
-> Writing Guard does not write your paper for you.
-> It makes AI-assisted writing safer to ship.
+> Writing Guard 不替你写论文。
+> 它让 AI 辅助写作更安全地交付。
 
 ---
 
-## New in 2.0 — Argument Economy & Control-Plane Separation
+## 2.0 新特性 — 论证经济性与控制面分离
 
-Writing Guard 2.0 moves semantic style decisions **before generation** and keeps deterministic code focused on integrity.
+Writing Guard 2.0 把语义风格决策**提前到生成之前**，并让确定性代码专注于完整性。
 
-- **Critique is not content** — reviewer/user/guard wording is control context, not manuscript evidence.
-- **Prefer CUT over REWRITE** — if a sentence only prevents criticism, reassures reviewers, advertises importance, or repeats an obvious implication, delete it.
-- **Do not close every semantic loop** — stop after evidence + necessary interpretation; keep non-obvious statistical interpretation and reproducibility detail.
-- **Style-only revisions default to same length or shorter** — no explanatory inflation without new supported content.
-- **Auto-audit no longer reinjects snippets or rewrite suggestions** — only structured rule/action metadata is sent back to the agent.
-- New English/Chinese cues for defensive-purpose framing, semantic-closure markers, and content-free evaluation.
+- **批评不是内容** — 审稿人/用户/守卫的措辞属于控制上下文，不是稿件证据。
+- **优先删除而非重写** — 如果一句话只是在预防批评、安抚审稿人、标榜重要性或重复显而易见的含义，删掉它。
+- **不要闭合每个语义环** — 在证据与必要解读之后停笔；保留不显然的统计解读与可复现细节。
+- **纯风格修改默认同长或更短** — 没有新增受支持内容，就不要做解释性膨胀。
+- **自动审计不再回注片段或改写建议** — 只把结构化的规则/动作元数据发回给 agent。
+- 新增面向防御性措辞、语义闭合标记与无内容评价的中英文线索。
 
-Example:
+示例：
 
 ```text
-Avoid:  To prevent data leakage, normalization was carefully performed using only the training data.
-Prefer: Normalization parameters were estimated from the training data.
+避免：  为防止数据泄漏，归一化只使用训练数据并做了仔细处理。
+改为：  归一化参数由训练数据估计得到。
 ```
 
-The second sentence states the method fact without importing the defensive reason for mentioning it.
+第二句只陈述方法事实，不夹带“为什么要提这件事”的防御性理由。
 
 ---
 
-## 🛡️ Word Document Guard (introduced in 1.8)
+## 🛡️ Word 文档守卫（1.8 引入）
 
-**Change what was requested. Verify what wasn't.**
+**只改要求改的，核验没要求改的。**
 
-AI-assisted document editing introduces a subtle risk: the requested text may improve while unrelated parts of the manuscript silently change.
+AI 辅助文档编辑有一个隐蔽风险：要求的文字改好了，稿件的无关部分却悄悄变了。
 
-When you ask an AI agent to "rewrite paragraph 3 only," it may inadvertently modify:
+当你让 AI agent “只重写第 3 段”时，它可能无意中修改：
 
-- equation structures
-- table borders
-- numbering
-- styles
-- section geometry
-- relationships
-- embedded media
-- OOXML package parts
+- 公式结构
+- 表格边框
+- 编号
+- 样式
+- 节版面
+- 关系（relationships）
+- 嵌入媒体
+- OOXML 包部件
 
-Writing Guard 1.8 introduces a **document-integrity layer** for Word manuscripts:
+Writing Guard 1.8 为 Word 稿件引入了**文档完整性层**：
 
-| Feature | What it does |
+| 特性 | 作用 |
 |---------|--------------|
-| **Safe scoped editing** | Only the specified range can change |
-| **Package validation** | Verifies DOCX/OOXML package integrity after editing |
-| **Structural fingerprinting** | Compares document structure before and after |
-| **Equation integrity** | Checks equation structure, numbering continuity, math-font drift |
-| **Scholarly table awareness** | Distinguishes data tables from layout/figure containers |
-| **Pre/post integrity verification** | Deterministic verification, not "I think it's fine" |
+| **安全范围编辑** | 只有指定范围可以改变 |
+| **包验证** | 编辑后校验 DOCX/OOXML 包完整性 |
+| **结构指纹** | 对比编辑前后的文档结构 |
+| **公式完整性** | 检查公式结构、编号连续性、数学字体漂移 |
+| **学术表格感知** | 区分数据表与版式/图片容器 |
+| **前后完整性核验** | 确定性核验，而不是“我觉得没问题” |
 
-### Before / After
+### 修改前后
 
-**Without Writing Guard:**
+**不用 Writing Guard：**
 ```
-"Please improve the wording in paragraph 3."
-→ AI agent modifies DOCX.
-→ Result: paragraph looks better.
-→ Unknown: what else changed?
+“请优化第 3 段的措辞。”
+→ AI agent 修改 DOCX。
+→ 结果：该段看起来更好。
+→ 未知：还改了什么？
 ```
 
-**With Writing Guard:**
+**使用 Writing Guard：**
 ```
-"Please improve the wording in paragraph 3."
-→ Writing Guard:
-   ✓ scope validated
-   ✓ package valid
-   ✓ equations preserved
-   ✓ protected structures unchanged
-   ✓ document fingerprint checked
-→ Result: paragraph changed — and unintended document drift is detected.
+“请优化第 3 段的措辞。”
+→ Writing Guard：
+   ✓ 范围已验证
+   ✓ 包有效
+   ✓ 公式未变
+   ✓ 受保护结构未变
+   ✓ 文档指纹已核对
+→ 结果：该段已修改——同时检测到了非预期的文档漂移。
 ```
 
 ---
 
-## Quick Start
+## 快速开始
 
 ```sh
-# Install
+# 安装
 dsh plugin add dsh-plugin-writing-guard
 
-# Restart
+# 重启
 dsh web
 ```
 
-### Natural Language Usage
+### 自然语言用法
 
-Once installed, you can use natural language:
+安装后可以直接用自然语言：
 
-| Say this | Writing Guard does this |
+| 这样说 | Writing Guard 会做 |
 |----------|------------------------|
-| "帮我检查论文写作质量" | `writing_word_audit` |
-| "把表格改成三线表" | `writing_word_format_tables` |
-| "扫描DOCX结构" | `writing_word_scan` |
-| "修改第三章的XXX" | `writing_word_edit` |
-| "编辑后验证范围" | `writing_word_scope_check` |
-| "检查有没有AI味" | `writing_audit` |
+| “帮我检查论文写作质量” | `writing_word_audit` |
+| “把表格改成三线表” | `writing_word_format_tables` |
+| “扫描DOCX结构” | `writing_word_scan` |
+| “修改第三章的XXX” | `writing_word_edit` |
+| “编辑后验证范围” | `writing_word_scope_check` |
+| “检查有没有AI味” | `writing_audit` |
 
 ---
 
-## Five Guards — Detailed
+## 五层守卫详解
 
-### STYLE — Argument Economy & Prose Discipline
+### STYLE — 论证经济性与行文纪律
 
-Guides the host model before writing, then uses deterministic cues to audit mechanical, defensive, and over-explained prose:
+在写作前引导宿主模型，再用确定性线索审计机械化、防御性与过度解释的文字：
 
-- Revision residue: `revised`, `as requested`, `本轮`, `审稿人要求`
-- Defensive writing: concession stacking, limitation pre-emption
-- Mechanical rhetoric: `不是X而是Y`, `rather than` abuse, triple parallelism
-- LLM high-frequency words: `delve` / `tapestry` / `testament` (density-based)
-- Chinese patterns and average sentence length anomalies
+- 修改残留：`revised`、`as requested`、`本轮`、`审稿人要求`
+- 防御性写作：让步堆叠、预先辩解局限
+- 机械化修辞：`不是X而是Y`、滥用 `rather than`、三连排比
+- LLM 高频词：`delve` / `tapestry` / `testament`（按密度）
+- 中文模式与平均句长异常
 
-### EVIDENCE — Scholarship + Epistemic Lock
+### EVIDENCE — 学术性与认知锁
 
-Protects scientific facts during AI editing:
+在 AI 编辑过程中保护科学事实：
 
-- Numbers, percentages, p-values, confidence intervals, units
-- Citations, Figure/Table numbers, DOI
-- Causal strength: `associated with` cannot become `caused`
-- Null findings: `no significant difference` cannot disappear
-- Scope boundaries and evidence status
+- 数字、百分比、p 值、置信区间、单位
+- 引用、图/表编号、DOI
+- 因果强度：`associated with` 不能变成 `caused`
+- 零结果：`no significant difference` 不能消失
+- 范围边界与证据状态
 
-### JOURNAL — Target Journal Fit
+### JOURNAL — 目标期刊契合
 
-Calibrates manuscript against target journal conventions:
+按目标期刊惯例校准稿件：
 
-- Syntax structure (sentence length, paragraph length)
-- Voice and person (passive voice, first-person usage)
-- Citations (bibliographic, figure/table references)
-- Scientific claims (claim density, causal/evidential strength)
-- Rhetorical moves (coverage, canonical order)
+- 句法结构（句长、段长）
+- 语态与人称（被动语态、第一人称使用）
+- 引用（文献引用、图/表引用）
+- 科学主张（主张密度、因果/证据强度）
+- 修辞动作（覆盖度、规范顺序）
 
-### DELIVERY — Context Leakage Detection
+### DELIVERY — 上下文泄漏检测
 
-Stops workflow context from leaking into final artifacts:
+防止工作流上下文泄漏进最终交付物：
 
-- Rejected alternatives
-- Revision process residue
-- Provenance leakage
-- Defensive hedge leakage
+- 被否决的替代方案
+- 修改过程残留
+- 来源泄漏
+- 防御性对冲泄漏
 
-### DOCUMENT — Word Document Integrity 🆕
+### DOCUMENT — Word 文档完整性 🆕
 
-Safely edit Word manuscripts without breaking structure:
+安全编辑 Word 稿件而不破坏结构：
 
 ```
 writing_word_scan → writing_word_edit → writing_word_scope_check
 ```
 
-**13 tools** for complete document integrity:
+**13 个工具**覆盖完整文档完整性：
 
-| Tool | Purpose |
+| 工具 | 用途 |
 |------|---------|
-| `writing_word_scan` | Structural scan |
-| `writing_word_edit` | Safe scoped editing |
-| `writing_word_audit` | Writing audit for .docx |
-| `writing_word_scope_check` | Scope integrity verification |
-| `writing_word_format_tables` | Three-line table formatting |
-| `writing_word_audit_equations` | OMML equation audit |
-| `writing_word_package_validate` | OOXML package validation |
-| `writing_word_fingerprint` | Baseline formatting fingerprint |
-| `writing_audit` | Text writing audit |
-| `writing_rules` | Writing guidelines |
-| `writing_style_profile` | Author style profile |
-| `writing_journal_profile` | Journal profile |
-| `writing_delivery_audit` | Delivery integrity audit |
+| `writing_word_scan` | 结构扫描 |
+| `writing_word_edit` | 安全范围编辑 |
+| `writing_word_audit` | .docx 写作审计 |
+| `writing_word_scope_check` | 范围完整性核验 |
+| `writing_word_format_tables` | 三线表格式化 |
+| `writing_word_audit_equations` | OMML 公式审计 |
+| `writing_word_package_validate` | OOXML 包验证 |
+| `writing_word_fingerprint` | 基线格式指纹 |
+| `writing_audit` | 文本写作审计 |
+| `writing_rules` | 写作纪律速查 |
+| `writing_style_profile` | 作者风格档案 |
+| `writing_journal_profile` | 期刊写作档案 |
+| `writing_delivery_audit` | 交付完整性审计 |
 
 ---
 
-## Installation
+## 安装
 
 ```sh
-# From npm (recommended)
+# 从 npm 安装（推荐）
 dsh plugin add dsh-plugin-writing-guard
 
-# From GitHub
+# 从 GitHub 安装
 dsh plugin add github:xmutfyh/dsh-plugin-writing-guard
 
-# From local source
+# 从本地源码安装
 dsh plugin add ./path/to/dsh-plugin-writing-guard
 ```
 
-**Prerequisites:**
+**前置条件：**
 - Node.js ≥ 18
-- Python 3.10+ with `python-docx` (`pip install python-docx`)
+- Python 3.10+ 与 `python-docx`（`pip install python-docx`）
 
 ---
 
-## Architecture
+## 架构
 
 ```
 Writing Guard
 ├── STYLE (writing_audit)
-│   ├── Revision residue detection
-│   ├── AI style patterns
-│   └── Density-based thresholds
+│   ├── 修改残留检测
+│   ├── AI 风格模式
+│   └── 基于密度的阈值
 ├── EVIDENCE (Scholarship/Epistemic Lock)
-│   ├── Number/unit preservation
-│   ├── Citation integrity
-│   └── Claim strength conservation
+│   ├── 数字/单位保全
+│   ├── 引用完整性
+│   └── 主张强度守恒
 ├── JOURNAL (Journal Profile)
-│   ├── Corpus-aware analysis
-│   ├── Section-level comparison
-│   └── Rhetorical move matching
-├── DELIVERY (CAL Detection)
-│   ├── Rejected alternative leakage
-│   ├── Process residue
-│   └── Baseline reality check
+│   ├── 语料感知分析
+│   ├── 章节级对比
+│   └── 修辞动作匹配
+├── DELIVERY (CAL 检测)
+│   ├── 被否决方案泄漏
+│   ├── 过程残留
+│   └── 基线真实性检查
 └── DOCUMENT (Word Guard) 🆕
-    ├── Structural scanning
-    ├── Safe editing
-    ├── Package validation
-    ├── Fingerprinting
-    └── Equation audit
+    ├── 结构扫描
+    ├── 安全编辑
+    ├── 包验证
+    ├── 指纹
+    └── 公式审计
 ```
 
-**Design principle:** Baseline manuscript > journal/template > plugin defaults.
+**设计原则：** 基线稿件 > 期刊/模板 > 插件默认值。
 
-The LLM/agent decides *what* should change. Deterministic Word code decides *how* to make that change without silently altering unrelated formatting.
+LLM/agent 决定*改什么*。确定性的 Word 代码决定*如何*改，而不悄悄改变无关格式。
 
 ---
 
-## Tests
+## 测试
 
 ```sh
 npm test
 ```
 
-394 deterministic tests covering:
-- STYLE, Scholarship Lock, Epistemic Lock
-- Claim alignment, local citation integrity
-- Journal Profile, Journal Fit
-- DELIVERY (CAL detection)
-- **Word Guard** (v1.8.2): OOXML validation, fingerprinting, equation audit
+394 项确定性测试覆盖：
+- STYLE、Scholarship Lock、Epistemic Lock
+- 主张对齐、本地引用完整性
+- Journal Profile、Journal Fit
+- DELIVERY（CAL 检测）
+- **Word Guard**（v1.8.2）：OOXML 验证、指纹、公式审计
 
 ---
 
-## Security & Privacy
+## 安全与隐私
 
-- Deterministic integrity checks run locally; semantic writing decisions are handled by the host model under the Writing Guard policy.
-- The plugin only reads files being edited.
-- The plugin itself does not upload or collect manuscript content.
-- See [SECURITY.md](SECURITY.md)
+- 确定性完整性检查在本地运行；语义写作决策由宿主模型在 Writing Guard 策略下完成。
+- 插件只读取正在编辑的文件。
+- 插件本身不上传或收集稿件内容。
+- 详见 [SECURITY.md](SECURITY.md)
 
 ---
 
-## Why Writing Guard?
+## 为什么选择 Writing Guard？
 
 | | Writing Guard | Humanizer | AI Detector |
 |---|---|---|---|
-| Pre-writing rules | ✅ | ❌ | ❌ |
-| During-writing checks | ✅ | Usually ❌ | ❌ |
-| Auto-monitor manuscript | ✅ | ❌ | ❌ |
-| Full rewrite | ❌ | ✅ | ❌ |
-| Explainable issues | ✅ | Partial | Partial |
-| Deterministic integrity checks | ✅ | Usually no | Depends |
+| 写作前规则 | ✅ | ❌ | ❌ |
+| 写作中检查 | ✅ | 通常 ❌ | ❌ |
+| 自动监控稿件 | ✅ | ❌ | ❌ |
+| 整篇重写 | ❌ | ✅ | ❌ |
+| 可解释的问题 | ✅ | 部分 | 部分 |
+| 确定性完整性检查 | ✅ | 通常没有 | 视情况 |
 
-> Humanizer rewrites after writing. Writing Guard prevents during writing.
+> Humanizer 在写完后重写。Writing Guard 在写作中预防。
 
 ---
 
-## Brand
+## 品牌
 
 ```
                   WRITING GUARD
@@ -304,16 +304,16 @@ npm test
                                Verify what wasn't.
 ```
 
-**Classic slogan:** Less AI. More Evidence. Better Journal Fit. Clean Delivery.
+**经典口号：** 少一点 AI 味，多一点证据，更好的期刊契合，干净的交付。
 
-**Document slogan:** Change what was requested. Verify what wasn't.
+**文档口号：** 只改要求改的，核验没要求改的。
 
 ---
 
-## CHANGELOG
+## 更新日志
 
-See [CHANGELOG.md](CHANGELOG.md).
+见 [CHANGELOG.md](CHANGELOG.md)。
 
-## License
+## 许可证
 
 MIT

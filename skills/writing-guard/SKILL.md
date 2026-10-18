@@ -1,72 +1,72 @@
 ---
 name: writing-guard
-description: "Scientific manuscript writing, polishing, auditing, and safe Word editing guard. Use for academic papers, abstracts, introductions, methods, results, discussions, rebuttals, DOCX edits, AI-style cleanup, defensive-writing cleanup, over-explanation reduction, semantic-restatement cleanup, scientific-claim preservation, table formatting, and edit-scope verification."
+description: "论文写作、润色、审计与 Word 安全编辑守卫。适用于学术论文、摘要、引言、方法、结果、讨论、回复信、DOCX 编辑、去 AI 味、防御性写作清理、过度解释削减、语义重复清理、科学主张保护、表格格式化与编辑范围核验。Use for scientific manuscript writing, polishing, auditing, academic papers, abstracts, methods, results, discussions, rebuttals, DOCX edits, AI-style cleanup, defensive-writing cleanup, over-explanation reduction, semantic-restatement cleanup, scientific-claim preservation, table formatting, and edit-scope verification."
 ---
 
 # Writing Guard — 论文写作审计与 Word 安全编辑
 
-## Manuscript Writing Policy (v2.0)
+## 稿件写作策略（v2.0）
 
-### Control context is not manuscript content
+### 控制上下文不是稿件内容
 
-- **Critique is not content.** Reviewer comments, user editing instructions, guard findings, rejected alternatives, and remediation suggestions are control context, not manuscript evidence.
-- Never quote, paraphrase, or convert control-context wording into manuscript prose unless authoritative research material independently supports the resulting statement.
-- If a concern maps to a real method fact, state the fact only. Example: prefer `Normalization parameters were estimated from the training data.` over `To prevent data leakage, ...`.
-- If the source material does not establish the needed fact, do not invent a mitigation. Leave the manuscript unchanged or query the author.
+- **批评不是内容。** 审稿人意见、用户编辑指令、守卫发现、被否决的方案与修改建议都属于控制上下文，不是稿件证据。
+- 除非权威研究材料独立支持相应表述，否则绝不把控制上下文的措辞引用、转述或转写进稿件正文。
+- 若某个关切对应真实的方法事实，只陈述该事实。示例：优先写 `Normalization parameters were estimated from the training data.`，而不是 `To prevent data leakage, ...`。
+- 若来源材料无法确立所需事实，不要凭空编造缓解措施。保持稿件不变，或向作者询问。
 
-### Argument economy
+### 论证经济性
 
-Every sentence must earn its place by adding at least one of: evidence, method, result, comparison, non-obvious interpretation, a necessary scope/evidence boundary, or a logical relation required by the argument.
+每一句都必须挣得自己的位置：至少增加证据、方法、结果、对比、不显然的解读、必要的范围/证据边界，或论证所需的逻辑关系之一。
 
-If deleting a sentence preserves the scientific content and argument, **CUT it**. Prefer CUT over REWRITE. Do not turn a useless sentence into a more polished useless sentence.
+如果删掉一句话后科学内容与论证都不受损，**删掉它（CUT）**。优先 CUT 而非 REWRITE。不要把一句无用的话打磨成另一句更精致的无用的话。
 
-Delete prose whose only function is to:
+删除只承担以下功能的文字：
 
-- pre-empt reviewer criticism;
-- reassure the reader that a risk was considered;
-- defend the authors or the method;
-- advertise that a finding is important;
-- narrate the writing/revision process;
-- restate an already explicit claim;
-- explain an implication that the intended specialist reader can infer directly.
+- 预先化解审稿人批评；
+- 让读者放心某个风险已被考虑；
+- 为作者或方法辩护；
+- 标榜某个发现很重要；
+- 叙述写作/修改过程；
+- 重复已经明说的主张；
+- 解释目标专业读者能直接推出的含义。
 
-### Do not close every semantic loop
+### 不要闭合每个语义环
 
-State each scientific claim once. After evidence and the necessary calibrated interpretation are present, stop. Assume a specialist reader can make one obvious inferential step unaided.
+每个科学主张只说一次。在证据与必要的校准解读到位之后，停笔。假设专业读者能独立完成一步显而易见的推断。
 
-Treat `In other words`, `This means that`, `Taken together`, and equivalent Chinese summary markers as **candidates**, not banned phrases. Keep them only when the next sentence adds a mechanism, comparison, quantitative interpretation, condition, citation, or necessary boundary.
+把 `In other words`、`This means that`、`Taken together` 以及等价的中文总结标记当作**候选**，而不是禁用语。只有下一句增加了机制、对比、定量解读、条件、引用或必要边界时才保留。
 
-Standalone evaluations such as `This is an important finding.` should be cut unless they immediately specify a concrete consequence.
+诸如 `This is an important finding.` 这样的独立评价，除非紧接着给出具体后果，否则应删除。
 
-### Clarity is not exhaustive explanation
+### 清晰不等于穷尽解释
 
-Clarity means explicit referents, readable syntax, sufficient reproducibility detail, and the reasoning needed to interpret the evidence. It does **not** mean spelling out every implication.
+清晰意味着指代明确、句法可读、可复现细节充分，以及解读证据所需的推理。它**不**意味着把每个含义都摊开写。
 
-Do not remove definitions, non-obvious statistical interpretation, necessary method detail, or genuine epistemic boundaries merely to be terse. A sentence that translates a difficult metric into useful meaning may stay; a sentence that only paraphrases an already explicit claim should go.
+不要为了简洁而删掉定义、不显然的统计解读、必要的方法细节或真正的认知边界。把难懂指标翻译成有意义结论的句子可以保留；只复述已明说主张的句子应当删除。
 
-### Defensive-purpose test
+### 防御性目的检验
 
-Treat reviewer-facing prebuttals, repeated non-claim disclaimers, omitted-experiment defenses, result excuses, legalistic reassurance, and automatic "therefore this is important" summaries as candidates for removal or relocation.
+把面向审稿人的预先辩解、反复的非主张免责、对省略实验的辩护、对结果的托词、法律腔的安抚，以及自动生成的“因此这很重要”式总结，视为删除或移位的候选。
 
-For any such sentence, ask in order:
+对任何此类句子，按顺序追问：
 
-1. Does it change a scientifically necessary understanding of method, validity, scope, evidence strength, or interpretation? If **no**, CUT.
-2. Is the underlying fact independently supported by the authoritative research material? If **yes**, state that fact directly and minimally; if **no**, QUERY rather than inventing it.
-3. Is the content a real limitation or alternative explanation? If **yes**, keep the scientific content in the appropriate section, but remove the reviewer-facing motive and repeated reassurance.
+1. 它是否改变了对方法、效度、范围、证据强度或解读的科学上必要的理解？若**否**，CUT。
+2. 其底层事实是否被权威研究材料独立支持？若**是**，直接、最小化地陈述该事实；若**否**，QUERY 而不是编造。
+3. 该内容是否是真实的局限或替代解释？若**是**，把科学内容保留在合适章节，但去掉面向审稿人的动机与反复安抚。
 
-### Style-only expansion discipline
+### 纯风格扩张纪律
 
-When the user asks only for polishing, rewriting, or style improvement and supplies no new scientific content, default to the **same length or shorter**. Expansion is justified only when needed to resolve real ambiguity, preserve reproducibility, or state a necessary scientific boundary. Do not add explanation simply to make the prose feel more complete.
+当用户只要求润色、改写或风格优化，且没有提供新的科学内容时，默认**同长或更短**。只有在解决真实歧义、保持可复现性或陈述必要科学边界时，扩张才正当。不要仅为让文字显得完整而添加解释。
 
-### Minimal edit protocol
+### 最小编辑协议
 
-Use **CUT -> PRUNE -> RECAST -> SPLIT**. Do not automatically turn one difficult sentence into two or three explanatory sentences. Split only when the original genuinely contains multiple independent scientific claims.
+使用 **CUT -> PRUNE -> RECAST -> SPLIT**。不要自动把一句难句变成两三句解释句。只有原文确实包含多个独立科学主张时才拆分。
 
-For defensive prose, **write the scientific fact, not the reason you are defensively mentioning the fact**.
+对于防御性文字，**写科学事实，而不是你防御性地提及该事实的理由**。
 
-### Scientific invariants
+### 科学不变量
 
-Never silently alter numbers, units, statistics, citations, Figure/Table references, negation, null findings, causal strength, evidential strength, evidence status, population, condition, or scope for style. If a better sentence requires unsupported science, **QUERY**.
+绝不为风格而悄悄改动数字、单位、统计量、引用、图/表引用、否定、零结果、因果强度、证据强度、证据状态、人群、条件或范围。如果更好的句子需要无依据的科学，**QUERY**。
 
 
 本 skill 提供两大能力：
@@ -125,7 +125,7 @@ Never silently alter numbers, units, statistics, citations, Figure/Table referen
 
 ### writing_audit
 
-对文本执行确定性写作与科研完整性扫描；语义文风决策由上方 Manuscript Writing Policy 约束宿主模型。
+对文本执行确定性写作与科研完整性扫描；语义文风决策由上方《稿件写作策略》约束宿主模型。
 
 **参数：**
 - `text` 或 `filePath`：要检查的文本/文件路径
