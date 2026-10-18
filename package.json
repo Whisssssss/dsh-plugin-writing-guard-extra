@@ -12,7 +12,7 @@
     "cordis.patch.yml"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/sync-word-guard.mjs",
     "pretest": "npm run build",
     "test": "node tests/run-tests.mjs",
     "postinstall": "node scripts/install-extras.mjs"
